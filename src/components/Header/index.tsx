@@ -6,7 +6,7 @@ export function Header() {
     return (
         <Container>
             <Content>
-                <img src={logoImg} height="40px" alt="rkb.cash"/>
+                <img src={logoImg} alt="rkb.cash"/>
                 <button type="button">
                     Nova transação
                 </button>
