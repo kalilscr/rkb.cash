@@ -1,5 +1,8 @@
 import Modal from 'react-modal';
-import { Container } from './styles';
+import incomeImg from '../../assets/income.svg'
+import outcomeImg from '../../assets/outcome.svg'
+import closeImg from '../../assets/close.svg';
+import { Container, TransacyionTypeContainer} from './styles';
 
 interface NewTransactionModalProps {
     isOpen: boolean;
@@ -8,24 +11,45 @@ interface NewTransactionModalProps {
 
 export function NewTransactionModal({ isOpen, onRequestClose}: NewTransactionModalProps ) {
     return(
-    <Modal 
-       isOpen={isOpen}
-       onRequestClose={onRequestClose}
-       overlayClassName="react-modal-overlay"
-       className="react-modal-content"
-     >
-        <Container>
-            <h2>Cadastrar Transação</h2>
+        <Modal 
+        isOpen={isOpen}
+        onRequestClose={onRequestClose}
+        overlayClassName="react-modal-overlay"
+        className="react-modal-content"
+        >
 
-            <input placeholder="Título"/>
+            <button 
+                type="button" 
+                onClick={onRequestClose}
+                className="react-modal-close"
+            >
+                <img src={closeImg} alt="Fechar"/>
+            </button>
 
-            <input type="number" placeholder="Valor"/>
+            <Container>
+                <h2>Cadastrar Transação</h2>
 
-            <input placeholder="Categoria"/>
+                <input placeholder="Título"/>
 
-            <button type="submit">Cadastrar</button>
+                <input type="number" placeholder="Valor"/>
 
-        </Container>
-     </Modal>
+                <TransacyionTypeContainer>
+                    <button type="button">
+                        <img src={incomeImg} alt="Entrada" />
+                        <span>Entrada</span>
+                    </button>
+
+                    <button type="button">
+                        <img src={outcomeImg} alt="Saída" />
+                        <span>Saída</span>
+                    </button>
+                </TransacyionTypeContainer>
+
+                <input placeholder="Categoria"/>
+
+                <button type="submit">Cadastrar</button>
+
+            </Container>
+        </Modal>
     );
 }
