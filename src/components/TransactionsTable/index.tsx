@@ -1,11 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { Container } from "./styles";
 
+interface Transaction {
+    id: number;
+    title: string;
+    amount: number;
+    type: string;
+    category: string;
+    createdAt: string;
+}
+
 export function TransactionsTable(){
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+
     useEffect(() => {
         api.get('/transactions')
-        .then(response => console.log(response.data))
+        .then(response => setTransactions(response.data.transactions))
     }, []);
 
     return(
@@ -21,33 +32,24 @@ export function TransactionsTable(){
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td>Desenvovimento de website</td>
-                        <td className="deposit">R$9.000,00</td>
-                        <td>Venda</td>
-                        <td>13/04/2021</td>
-                    </tr>
+                   {transactions.map(transaction => {
+                       return(
+                         <tr key={transaction.id}>
+                            <td>{transaction.title}</td>
 
-                    <tr>
-                        <td>Pizza</td>
-                        <td className="withdraw">R$-69,00</td>
-                        <td>Alimentação</td>
-                        <td>10/04/2021</td>
-                    </tr>
+                            <td className={transaction.type}>
+                                {new Intl.NumberFormat('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                }).format(transaction.amount)}
+                            </td>
 
-                    <tr>
-                        <td>Aluguel do apartamento</td>
-                        <td className="withdraw">R$-1.200,00</td>
-                        <td>Moradia</td>
-                        <td>27/03/2021</td>
-                    </tr>
+                            <td>{transaction.category}</td>
 
-                    <tr>
-                        <td>Placa de Video</td>
-                        <td className="deposit">R$5.000,00</td>
-                        <td>Venda</td>
-                        <td>20/02/2021</td>
-                    </tr>
+                            <td> {new Intl.DateTimeFormat('pt-BR').format(new Date(transaction.createdAt))}</td>
+                         </tr>
+                       )
+                   })}
                 </tbody>
             </table>
         </Container>
